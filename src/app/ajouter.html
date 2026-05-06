@@ -1,0 +1,87 @@
+<main class="flex justify-center items-center flex-col">
+  le formulaire se trouve ci-dessous
+  <form [formGroup]="formulaire" class="flex flex-col">
+    <label class="flex" for="nom"
+      ><span class="block w-xs">nom</span>
+      <input
+        id="nom"
+        class="border-black-500 border-1"
+        type="text"
+        formControlName="nom"
+        placeholder="- - - -"
+      />
+    </label>
+
+    <label class="flex" for="effet"
+      ><span class="block w-xs">effet</span>
+      <input
+        id="effet"
+        class="border-black-500 border-1"
+        type="text"
+        formControlName="effet"
+        placeholder="- - - -"
+      />
+    </label>
+
+    <label class="flex" for="description"
+      ><span class="block w-xs">description</span>
+      <input
+        id="description"
+        class="border-black-500 border-1"
+        type="text"
+        formControlName="description"
+        placeholder="- - - -"
+      />
+    </label>
+
+    <label class="flex" for="atk"
+      ><span class="block w-xs">atk</span>
+      <input
+        id="atk"
+        class="border-black-500 border-1"
+        type="number"
+        formControlName="atk"
+        placeholder="- - - -"
+      />
+    </label>
+
+    <label class="flex" for="pdv"
+      ><span class="block w-xs">pdv</span>
+      <input
+        id="pdv"
+        class="border-black-500 border-1"
+        type="number"
+        formControlName="pdv"
+        placeholder="- - - -"
+      />
+    </label>
+
+    <label class="flex" for="cout"
+      ><span class="block w-xs">cout</span>
+      <input
+        id="cout"
+        class="border-black-500 border-1"
+        type="number"
+        formControlName="cout"
+        placeholder="- - - -"
+      />
+    </label>
+
+    <label class="flex" for="image" class="hover:cursor-pointer"
+      >image
+      <input
+        class="border-black-500 border-1 hover:cursor-pointer"
+        type="file"
+        (change)="getFile($event)"
+        placeholder="- - - -"
+      />
+    </label>
+  </form>
+  <button
+    (click)="sendForm()"
+    [disabled]="!formulaire.valid"
+    class="hover:cursor-pointer hover:bg-white bg-gray-100 border-2 border-black-500 rounded-lg mx-10"
+  >
+    créer
+  </button>
+</main>

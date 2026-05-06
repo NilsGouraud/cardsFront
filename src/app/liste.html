@@ -1,0 +1,14 @@
+<main>
+  this is dedicated to the list
+  @for (c of cards(); track $index) {
+    <article class="m-1 border-1">
+      <div class="">{{ c.nom }}</div>
+      <div class="">{{ c.effet }}</div>
+      <div class="">{{ c.description }}</div>
+      <div class="">{{ c.atk }}</div>
+      <div class="">{{ c.pdv }}</div>
+      <div class="">{{ c.cout }}</div>
+      <img src="http://localhost:8080/{{ c.image }}" alt="" />
+    </article>
+  }
+</main>
