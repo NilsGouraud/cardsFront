@@ -1,10 +1,11 @@
 import { Component, ChangeDetectorRef, signal } from '@angular/core';
 import { backEndUrl } from './app';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'liste',
   templateUrl: 'liste.html',
+  imports: [NgOptimizedImage],
   // imports: [CommonModule],
 })
 export class liste {
