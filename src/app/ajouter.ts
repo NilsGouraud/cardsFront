@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ajouter {
   formulaire = new FormGroup({
-    nom: new FormControl('valeurNom', Validators.required),
+    nom: new FormControl('carte', Validators.required),
     effet: new FormControl('valeurEffet'),
     description: new FormControl(''),
     type: new FormControl(''),

@@ -20,12 +20,18 @@ export class liste {
         console.log(this.cards);
       });
   }
+  async sendUpdateRequest(card: carte) {
+    return await fetch(backEndUrl + 'liste' + '/' + card.id)
+      .then((r) => r.json())
+      .then((r) => console.log(r));
+  }
   async ngOnInit() {
     await this.sendRequest();
     this.cd.detectChanges();
   }
 }
 type carte = {
+  id: string;
   nom: string;
   effet: string;
   description: string;

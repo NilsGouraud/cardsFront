@@ -1,7 +1,7 @@
 <main class="flex flex-wrap">
   <span>this is dedicated to the list</span>
   @for (c of cards(); track $index) {
-    <article class="m-1 border-1 w-71 h-100 bg-amber-100">
+    <article class="m-1 border-1 w-71 h-100 bg-amber-100" (click)="displayCardInOverlay($event)">
       <div class="flex justify-between w-71 h-7">
         <div class="px-1">{{ c.nom }}</div>
         <div class="px-1">{{ c.cout }}</div>
@@ -14,7 +14,7 @@
         height="200"
         class="object-cover w-71 h-50 ring-1"
       />
-      <div class="ring-1">{{ c.type }}placeholder</div>
+      <div class="ring-1">{{ c.type }}</div>
       <div class="flex flex-col justify-around w-71 h-30 ring-1">
         <div class="">{{ c.effet }}</div>
         <div class="">{{ c.description }}</div>
@@ -24,7 +24,7 @@
         <div></div>
         <div class="flex px-1">
           <div class="">{{ c.atk }}</div>
-          |
+          <span class="whitespace-pre"> | </span>
           <div class="">{{ c.pdv }}</div>
         </div>
       </div>
