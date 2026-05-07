@@ -20,6 +20,8 @@ export class liste {
         console.log(this.cards);
       });
   }
+  hasSelection = false;
+  selectedCard: any = '';
   async sendUpdateRequest(card: carte) {
     return await fetch(backEndUrl + 'liste' + '/' + card.id)
       .then((r) => r.json())
@@ -28,6 +30,21 @@ export class liste {
   async ngOnInit() {
     await this.sendRequest();
     this.cd.detectChanges();
+  }
+  openInOverlay(id: string) {
+    console.log('-----logging event');
+    this.selectedCard = this.findById(id);
+    this.hasSelection = true;
+    console.log('----------');
+  }
+  async closeOverlay() {
+    this.hasSelection = false;
+    this.selectedCard = '';
+    await this.sendRequest();
+  }
+  getFile(arg: any) {}
+  findById(id: string) {
+    return this.cards().find((c) => c.id === id);
   }
 }
 type carte = {

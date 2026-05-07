@@ -1,7 +1,95 @@
 <main class="flex flex-wrap">
   <span>this is dedicated to the list</span>
+  @if (hasSelection) {
+    <div class="fixed inset-0 flex justify-center items-center">
+      <div id="modalBackdrop" class="fixed inset-0 bg-black/50 z-0" (click)="closeOverlay()"></div>
+      <article class="m-1 border-1 w-71 h-100 bg-amber-100 scale-125">
+        <div class="flex justify-between w-71 h-7">
+          <input type="text" class="px-1" value="{{ selectedCard.nom }}" required />
+          <input
+            type="number"
+            class="px-1 border-black border-l-1 w-11"
+            value="{{ selectedCard.cout }}"
+            placeholder="???"
+          />
+        </div>
+
+        <img
+          ngSrc="/{{ selectedCard.image }}"
+          alt="image"
+          width="200"
+          height="200"
+          class="object-cover w-71 h-50 ring-1"
+        />
+        <label for="fichier">cliquez ici pour choisir une autre image </label>
+        <input
+          id="fichier"
+          class="border-black-500 border-1 hover:cursor-pointer"
+          type="file"
+          (change)="getFile($event)"
+          placeholder=""
+        />
+        <select class="ring-1">
+          <option value="{{ selectedCard.type }}" selected disabled>{{ selectedCard.type }}</option>
+          <option value="créature">créature</option>
+          <option value="éphémère">éphémère</option>
+          <option value="rituel">rituel</option>
+        </select>
+        <div class="flex flex-col justify-around w-71 h-30 ring-1">
+          <textarea
+            type="input"
+            class="truncate"
+            value="{{ selectedCard.effet }}"
+            placeholder="effet"
+          ></textarea>
+          <textarea
+            type="input"
+            class="truncate"
+            value="{{ selectedCard.description }}"
+            placeholder="description"
+          ></textarea>
+        </div>
+
+        <div class="flex justify-between">
+          <div></div>
+          <div class="flex px-1">
+            <input
+              type="number"
+              class="w-10 border-l-1 border-black"
+              value="{{ selectedCard.atk }}"
+              placeholder="???"
+            />
+            <span class="whitespace-pre"> </span>
+            <input
+              type="number"
+              class="w-10 border-l-1 border-black"
+              value="{{ selectedCard.pdv }}"
+              placeholder="???"
+            />
+          </div>
+        </div>
+        <div>
+          <button
+            class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
+          >
+            confirmer les modification
+          </button>
+          <button
+            class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-red-600 text-white hover:bg-white hover:text-red-600"
+            (click)="closeOverlay()"
+          >
+            annuler
+          </button>
+        </div>
+      </article>
+    </div>
+  }
+
   @for (c of cards(); track $index) {
-    <article class="m-1 border-1 w-71 h-100 bg-amber-100" (click)="displayCardInOverlay($event)">
+    <article
+      class="m-1 border-1 w-71 h-100 bg-amber-100 cursor-pointer"
+      (click)="openInOverlay(c.id)"
+    >
       <div class="flex justify-between w-71 h-7">
         <div class="px-1">{{ c.nom }}</div>
         <div class="px-1">{{ c.cout }}</div>
@@ -14,6 +102,7 @@
         height="200"
         class="object-cover w-71 h-50 ring-1"
       />
+
       <div class="ring-1">{{ c.type }}</div>
       <div class="flex flex-col justify-around w-71 h-30 ring-1">
         <div class="">{{ c.effet }}</div>
