@@ -12,6 +12,7 @@ export class ajouter {
     nom: new FormControl('valeurNom', Validators.required),
     effet: new FormControl('valeurEffet'),
     description: new FormControl(''),
+    type: new FormControl(''),
     atk: new FormControl(''),
     pdv: new FormControl(''),
     cout: new FormControl(''),
@@ -29,7 +30,7 @@ export class ajouter {
     console.log(this.file);
     console.log('-----');
   }
-  createFormData() {
+  getFormData() {
     const formData = new FormData();
     const values = this.formulaire.value;
 
@@ -46,8 +47,7 @@ export class ajouter {
   }
   async sendForm() {
     console.log('sending form');
-    const formData = this.createFormData();
-    // for (let [k, v] of formData.entries()) console.log(k, v);
+    const formData = this.getFormData();
     let res = await fetch(backEndUrl + 'ajouter', {
       method: 'POST',
       body: formData,
