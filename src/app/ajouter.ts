@@ -31,18 +31,6 @@ export class ajouter {
     this.confirmationRequired = false;
   }
 
-  resetFormulaire() {
-    this.formulaire = new FormGroup({
-      nom: new FormControl('carte', Validators.required),
-      effet: new FormControl('valeurEffet'),
-      description: new FormControl(''),
-      type: new FormControl(''),
-      atk: new FormControl(''),
-      pdv: new FormControl(''),
-      cout: new FormControl(''),
-    });
-  }
-
   async sendGetRequest() {
     return await fetch(backEndUrl + 'ajouter', { method: 'GET' })
       .then((r) => r.json())
@@ -88,7 +76,7 @@ export class ajouter {
       method: 'POST',
       body: formData,
     });
-    this.resetFormulaire();
+    this.formulaire.reset();
     console.log('here is the result');
     console.log(res);
   }
