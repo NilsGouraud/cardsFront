@@ -1,5 +1,31 @@
 <main class="flex justify-center items-center flex-col">
   le formulaire se trouve ci-dessous
+  @if (confirmationRequired) {
+    <div
+      id="modalBackdrop"
+      (click)="closeOverlay()"
+      class="fixed inset-0 bg-black/50 z-50 fixed inset-0 flex flex-col justify-center items-center"
+    >
+      <div class="text-center bg-white p-5 rounded-lg z-51">
+        A card by the name {{ formulaire.value.nom }} already exists. Are you sure you want to
+        overwrite it?
+        <div class="flex flex-row justify-around">
+          <button
+            (click)="confirmOverwrite()"
+            class="transition-all duration-200 m-1 p-1 cursor-pointer border-black border-1 bg-red-600 text-white hover:tracking-[2px] hover:text-red-600 hover:bg-white"
+          >
+            overwrite
+          </button>
+          <button
+            (click)="closeOverlay()"
+            class="transition-all duration-200 m-1 p-1 cursor-pointer border-black border-1 bg-gray-600 text-white hover:tracking-[2px] hover:text-black hover:bg-white"
+          >
+            cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  }
   <form [formGroup]="formulaire" class="flex flex-col">
     <label class="flex" for="nom"
       ><span class="block w-xs">nom</span>
