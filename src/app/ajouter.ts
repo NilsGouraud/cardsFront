@@ -10,7 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class ajouter {
   confirmationRequired = false;
   isConfirmed = false;
+  isSuccessfullyAdded = false;
+  isSuccessfullyUpdated = false;
   cards = [];
+  serverLog = '';
   file = '';
   formulaire = new FormGroup({
     nom: new FormControl('carte', Validators.required),
