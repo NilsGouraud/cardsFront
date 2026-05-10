@@ -1,15 +1,21 @@
 <main class="flex justify-center items-center flex-col">
   le formulaire se trouve ci-dessous
-  @if (isSuccessfullyAdded) {
-    <div></div>
-  }
-  @if (isSuccessfullyUpdated) {
-    <div></div>
+  @if (isUpdated) {
+    <div (click)="closeUpdate()" class="fixed inset-0 bg-black/50 z-50"></div>
+    <div class="z-51 bg-white flex flex-col">
+      <span id="" class="block whitespace-pre-wrap">{{ serverLog }}</span>
+      <button
+        (click)="closeUpdate()"
+        class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
+      >
+        ok
+      </button>
+    </div>
   }
   @if (confirmationRequired) {
     <div
       id="modalBackdrop"
-      (click)="closeOverlay()"
+      (click)="closeConfirmation()"
       class="fixed inset-0 bg-black/50 z-50 fixed inset-0 flex flex-col justify-center items-center"
     >
       <div class="text-center bg-white p-5 rounded-lg z-51">
@@ -23,7 +29,7 @@
             overwrite
           </button>
           <button
-            (click)="closeOverlay()"
+            (click)="closeConfirmation()"
             class="transition-all duration-200 m-1 p-1 cursor-pointer border-black border-1 bg-gray-600 text-white hover:tracking-[2px] hover:text-black hover:bg-white"
           >
             cancel

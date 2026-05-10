@@ -10,8 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class ajouter {
   confirmationRequired = false;
   isConfirmed = false;
-  isSuccessfullyAdded = false;
-  isSuccessfullyUpdated = false;
+  isUpdated = false;
   cards = [];
   serverLog = '';
   file = '';
@@ -30,8 +29,11 @@ export class ajouter {
     this.isConfirmed = true;
     this.sendForm();
   }
-  closeOverlay() {
+  closeConfirmation() {
     this.confirmationRequired = false;
+  }
+  closeUpdate() {
+    this.isUpdated = false;
   }
 
   async sendGetRequest() {
@@ -78,16 +80,19 @@ export class ajouter {
     let res = await fetch(backEndUrl + 'ajouter', {
       method: 'POST',
       body: formData,
-    });
+    }).then((r) => r.text());
     this.formulaire.reset();
     console.log('here is the result');
     console.log(res);
+    this.isUpdated = true;
+    this.serverLog = res;
+    this.isUpdated = true;
   }
   ngOnInit() {
     this.sendGetRequest();
   }
-  log() {
-    console.log('logging...');
+  replaceLineBreaks(text: string) {
+    return text.replace(/\n/g, '<br>');
   }
 }
 type carte = {
