@@ -1,12 +1,12 @@
 <main class="flex justify-center items-center flex-col">
-  le formulaire se trouve ci-dessous
+  Vous pouvez ajouter une carte à la base de données par le biais de ce formulaire.
   @if (isUpdated) {
     <div (click)="closeUpdate()" class="fixed inset-0 bg-black/50 z-50"></div>
-    <div class="z-51 bg-white flex flex-col">
+    <div class="z-51 bg-white flex flex-col rounded border-1 p-1">
       <span id="" class="block whitespace-pre-wrap">{{ serverLog }}</span>
       <button
         (click)="closeUpdate()"
-        class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
+        class="transition-all duration-100 z-51 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
       >
         ok
       </button>
@@ -17,10 +17,11 @@
       id="modalBackdrop"
       (click)="closeConfirmation()"
       class="fixed inset-0 bg-black/50 z-50 fixed inset-0 flex flex-col justify-center items-center"
-    >
-      <div class="text-center bg-white p-5 rounded-lg z-51">
-        A card by the name {{ formulaire.value.nom }} already exists. Are you sure you want to
-        overwrite it?
+    ></div>
+    <div class="fixed flex flex-col inset-0 justify-center items-center z-50">
+      <div class="text-center bg-white p-5 rounded-lg z-51 border-1">
+        Une carte nommée "{{ formulaire.value.nom }}" existe déjà. Êtes-vous sur de vouloir la
+        remplacer?
         <div class="flex flex-row justify-around">
           <button
             (click)="confirmOverwrite()"
