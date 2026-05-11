@@ -145,10 +145,12 @@
       />
     </label>
 
-    <label class="flex" for="image" class="hover:cursor-pointer"
-      >image
+    <label for="image" class="flex flex-row hover:cursor-pointer"
+      ><span class="block w-xs">image</span>
+      <div class="border-1">cliquez pour choisir une image</div>
       <input
-        class="border-black-500 border-1 hover:cursor-pointer"
+        id="image"
+        class="border-black-500 border-1 hover:cursor-pointer hidden"
         type="file"
         accept="image/*"
         (change)="getFile($event)"
@@ -156,11 +158,20 @@
       />
     </label>
   </form>
-  <button
-    (click)="sendForm()"
-    [disabled]="!formulaire.valid"
-    class="transition-all duration-200 hover:cursor-pointer hover:bg-white hover:tracking-wider bg-gray-200 border-2 border-black-500 rounded-lg mx-10"
-  >
-    créer
-  </button>
+  @if (!formulaire.valid) {
+    <button
+      (click)="alertNotValid()"
+      class="hover:cursor-pointer hoverbg-gray-200 border-2 border-black-500 text-gray-400 rounded-lg mx-10"
+    >
+      créer
+    </button>
+  } @else {
+    <button
+      (click)="sendForm()"
+      [disabled]="!formulaire.valid"
+      class="transition-all duration-200 hover:cursor-pointer hover:bg-white hover:tracking-wider bg-gray-200 border-2 border-black-500 rounded-lg mx-10"
+    >
+      créer
+    </button>
+  }
 </main>

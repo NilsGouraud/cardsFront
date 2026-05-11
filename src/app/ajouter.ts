@@ -6,12 +6,13 @@ import { ReactiveFormsModule } from '@angular/forms';
   selector: 'ajouter',
   templateUrl: './ajouter.html',
   imports: [ReactiveFormsModule],
+  standalone: true,
 })
 export class ajouter {
   confirmationRequired = false;
   isConfirmed = false;
   isUpdated = false;
-  cards = [];
+  cards: carte[] = [];
   serverLog = '';
   file = '';
   formulaire = new FormGroup({
@@ -25,7 +26,6 @@ export class ajouter {
   });
 
   confirmOverwrite() {
-    //TODO overwrite when isConfirmed
     this.isConfirmed = true;
     this.sendForm();
   }
@@ -58,12 +58,11 @@ export class ajouter {
       }
     });
     formData.append('image', this.file);
-    // console.log('creating formData');
-    // for (let [k, v] of formData.entries()) console.log(k, v);
-    // console.log('formData is above');
     return formData;
   }
-
+  alertNotValid() {
+    alert('Veuillez renseigner un nom pour créer une carte');
+  }
   async sendForm() {
     console.log(this.cards);
     if (
@@ -76,17 +75,14 @@ export class ajouter {
     }
     console.log('sending form');
     const formData = this.getFormData();
-    this.isConfirmed = false;
     let res = await fetch(backEndUrl + 'ajouter', {
       method: 'POST',
       body: formData,
     }).then((r) => r.text());
     this.formulaire.reset();
-    console.log('here is the result');
-    console.log(res);
-    this.isUpdated = true;
     this.serverLog = res;
     this.isUpdated = true;
+    this.isConfirmed = false;
   }
   ngOnInit() {
     this.sendGetRequest();
@@ -96,12 +92,12 @@ export class ajouter {
   }
 }
 type carte = {
-  id: string;
+  id?: string;
   nom: string;
-  effet: string;
-  description: string;
-  atk: string;
-  pdv: string;
-  cout: string;
-  image: string;
+  effet?: string;
+  description?: string;
+  atk?: string;
+  pdv?: string;
+  cout?: string;
+  image?: string;
 };
