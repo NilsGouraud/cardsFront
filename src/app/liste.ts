@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'liste',
   templateUrl: 'liste.html',
   imports: [NgOptimizedImage, ReactiveFormsModule],
@@ -37,10 +38,12 @@ export class liste {
     atk: new FormControl(''),
     pdv: new FormControl(''),
     cout: new FormControl(''),
+    id: new FormControl(''),
   });
   getFormData() {
     const formData = new FormData();
     const values = this.formulaire.value;
+    console.log('logging the values');
     console.log(values);
     Object.entries(values).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
@@ -50,14 +53,17 @@ export class liste {
     formData.append('image', this.file);
     return formData;
   }
-  confirmChanges() {
-    let formNom = document.getElementById('inputNom') as HTMLInputElement;
-    if (formNom == null) return;
-    if (formNom.value === '') {
-      alert('Veuillez renseigner un nom pour créer une carte');
+  async confirmChanges() {
+    let nom = this.formulaire.value.nom;
+    if (nom === '') {
+      alert('Veuillez renseigner un nom pour la carte');
       return;
     }
-    this.sendUpdateRequest();
+    if (this.cards().some((c) => c.nom === nom && c.id !== this.selectedCard.id)) {
+      alert('Nom déjà pris ; veuillez réessayer');
+      return;
+    }
+    await this.sendUpdateRequest();
     this.hasSelection = false;
   }
   async ngOnInit() {
@@ -67,14 +73,15 @@ export class liste {
   }
   openInOverlay(id: string) {
     this.selectedCard = this.findById(id);
-    this.formulaire = new FormGroup({
-      nom: new FormControl(this.selectedCard.nom, Validators.required),
-      effet: new FormControl(this.selectedCard.effet),
-      description: new FormControl(this.selectedCard.description),
-      type: new FormControl(this.selectedCard.type),
-      atk: new FormControl(this.selectedCard.atk),
-      pdv: new FormControl(this.selectedCard.pdv),
-      cout: new FormControl(this.selectedCard.cout),
+    this.formulaire.patchValue({
+      nom: this.selectedCard.nom,
+      effet: this.selectedCard.effet,
+      description: this.selectedCard.description,
+      type: this.selectedCard.type,
+      atk: this.selectedCard.atk,
+      pdv: this.selectedCard.pdv,
+      cout: this.selectedCard.cout,
+      id: this.selectedCard.id,
     });
     this.hasSelection = true;
   }
@@ -82,6 +89,8 @@ export class liste {
     this.hasSelection = false;
     this.selectedCard = '';
     await this.sendGetRequest();
+    this.file = '';
+    this.formulaire.reset();
   }
   getFile(event: any) {
     this.file = event.target.files[0];

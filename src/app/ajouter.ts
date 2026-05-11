@@ -83,6 +83,7 @@ export class ajouter {
     this.serverLog = res;
     this.isUpdated = true;
     this.isConfirmed = false;
+    this.confirmationRequired = false;
   }
   ngOnInit() {
     this.sendGetRequest();
