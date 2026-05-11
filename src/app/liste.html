@@ -3,14 +3,15 @@
   @if (hasSelection) {
     <div class="fixed inset-0 flex justify-center items-center">
       <div id="modalBackdrop" class="fixed inset-0 bg-black/50 z-0" (click)="closeOverlay()"></div>
-      <article class="m-1 border-1 w-71 h-100 bg-amber-100 scale-125">
+      <form [formGroup]="formulaire" class="m-1 border-1 w-71 h-100 bg-amber-100 scale-125">
         <div class="flex justify-between w-71 h-7">
-          <input type="text" class="px-1" value="{{ selectedCard.nom }}" required />
+          <input type="text" id="inputNom" class="px-1" value="{{ selectedCard.nom }}" required />
           <input
             type="number"
             class="px-1 border-black border-l-1 w-11"
             value="{{ selectedCard.cout }}"
             placeholder="???"
+            formControlName="cout"
           />
         </div>
 
@@ -29,7 +30,7 @@
           (change)="getFile($event)"
           placeholder=""
         />
-        <select class="ring-1">
+        <select class="ring-1" formControlName="type">
           <option value="{{ selectedCard.type }}" selected disabled>{{ selectedCard.type }}</option>
           <option value="créature">créature</option>
           <option value="éphémère">éphémère</option>
@@ -41,12 +42,14 @@
             class="truncate"
             value="{{ selectedCard.effet }}"
             placeholder="effet"
+            formControlName="effet"
           ></textarea>
           <textarea
             type="input"
             class="truncate"
             value="{{ selectedCard.description }}"
             placeholder="description"
+            formControlName="description"
           ></textarea>
         </div>
 
@@ -58,6 +61,7 @@
               class="w-10 border-l-1 border-black"
               value="{{ selectedCard.atk }}"
               placeholder="???"
+              formControlName="atk"
             />
             <span class="whitespace-pre"> </span>
             <input
@@ -65,12 +69,14 @@
               class="w-10 border-l-1 border-black"
               value="{{ selectedCard.pdv }}"
               placeholder="???"
+              formControlName="pdv"
             />
           </div>
         </div>
         <div>
           <button
             class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
+            (click)="confirmChanges()"
           >
             confirmer les modification
           </button>
@@ -81,7 +87,7 @@
             annuler
           </button>
         </div>
-      </article>
+      </form>
     </div>
   }
 
