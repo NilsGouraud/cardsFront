@@ -1,6 +1,6 @@
 <main class="flex flex-wrap">
   <span>this is dedicated to the list</span>
-  @if (hasSelection) {
+  @if (selectedCard) {
     <div class="fixed inset-0 flex justify-center items-center">
       <div id="modalBackdrop" class="fixed inset-0 bg-black/50 z-0" (click)="closeOverlay()"></div>
       <form [formGroup]="formulaire" class="m-1 border-1 w-71 h-100 bg-amber-100 scale-125">
@@ -35,7 +35,7 @@
           id="fichier"
           class="border-black-500 border-1 hover:cursor-pointer"
           type="file"
-          (change)="getFile($event)"
+          (change)="setFile($event)"
           placeholder=""
         />
         <select class="ring-1" formControlName="type">
