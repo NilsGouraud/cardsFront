@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { backEndUrl } from './app';
 import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,42 +15,14 @@ export class Liste implements OnInit {
   readonly cards = signal<Carte[]>([]);
   file: File | null = null;
   selectedCard: Carte | null = null;
-  private apiService = inject(ApiService);
   readonly formulaire = this.initForm();
+  private readonly apiService = inject(ApiService);
 
-  private initForm(): FormGroup<CarteForm> {
-    return new FormGroup<CarteForm>({
-      nom: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-      effet: new FormControl('', { nonNullable: true }),
-      description: new FormControl('', { nonNullable: true }),
-      type: new FormControl('', { nonNullable: true }),
-      atk: new FormControl('', { nonNullable: true }),
-      pdv: new FormControl('', { nonNullable: true }),
-      cout: new FormControl('', { nonNullable: true }),
-      id: new FormControl('', { nonNullable: true }),
-    });
-  }
-  private async sendGetRequest(): Promise<void> {
-    this.cards.set(await this.apiService.getCards());
-  }
-  private async sendUpdateRequest(): Promise<void> {
-    await this.apiService.updateCards(this.getFormContent());
-    this.sendGetRequest();
+  public async ngOnInit() {
+    this.formulaire.reset();
+    await this.sendGetRequest();
   }
 
-  private getFormContent(): FormData {
-    const formData = new FormData();
-    const values = this.formulaire.getRawValue();
-    console.log('logging the values');
-    console.log(values);
-    Object.entries(values).forEach(([key, value]) => {
-      if (value != null) {
-        formData.append(key, value.toString());
-      }
-    });
-    if (this.file) formData.append('image', this.file);
-    return formData;
-  }
   public async confirmChanges(): Promise<void> {
     let nom = this.formulaire.value.nom;
     if (nom === '') {
@@ -65,10 +36,7 @@ export class Liste implements OnInit {
     await this.sendUpdateRequest();
     this.selectedCard = null;
   }
-  async ngOnInit() {
-    this.formulaire.reset();
-    await this.sendGetRequest();
-  }
+
   public openInOverlay(id: string) {
     this.selectedCard = this.findById(id);
     if (!this.selectedCard) return;
@@ -85,15 +53,50 @@ export class Liste implements OnInit {
   }
   public async closeOverlay() {
     this.selectedCard = null;
-    await this.sendGetRequest();
     this.file = null;
+    await this.sendGetRequest();
     this.formulaire.reset();
   }
   public setFile(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.file = input.files?.[0] ?? null;
   }
+
+  private async sendGetRequest(): Promise<void> {
+    this.cards.set(await this.apiService.getCards());
+  }
+  private async sendUpdateRequest(): Promise<void> {
+    await this.apiService.updateCards(this.getFormContent());
+    await this.sendGetRequest();
+  }
+
+  private getFormContent(): FormData {
+    const formData = new FormData();
+    const values = this.formulaire.getRawValue();
+    console.log('logging the values');
+    console.log(values);
+    Object.entries(values).forEach(([key, value]) => {
+      if (value != null) {
+        formData.append(key, value.toString());
+      }
+    });
+    if (this.file) formData.append('image', this.file);
+    return formData;
+  }
+
   private findById(id: string): Carte | null {
     return this.cards().find((c) => c.id === id) ?? null;
+  }
+  private initForm(): FormGroup<CarteForm> {
+    return new FormGroup<CarteForm>({
+      nom: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      effet: new FormControl('', { nonNullable: true }),
+      description: new FormControl('', { nonNullable: true }),
+      type: new FormControl('', { nonNullable: true }),
+      atk: new FormControl('', { nonNullable: true }),
+      pdv: new FormControl('', { nonNullable: true }),
+      cout: new FormControl('', { nonNullable: true }),
+      id: new FormControl('', { nonNullable: true }),
+    });
   }
 }
