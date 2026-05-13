@@ -5,7 +5,7 @@ import { backEndUrl } from './app';
   templateUrl: './accueil.html',
   styleUrl: './app.css',
 })
-export class accueil implements OnChanges {
+export class Accueil implements OnChanges {
   text = 'placeholder';
   constructor(private cd: ChangeDetectorRef) {}
   async ngOnInit() {

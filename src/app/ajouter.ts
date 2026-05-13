@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [ReactiveFormsModule],
   standalone: true,
 })
-export class ajouter {
+export class Ajouter {
   confirmationRequired = false;
   isConfirmed = false;
   isUpdated = false;

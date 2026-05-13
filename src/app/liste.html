@@ -99,7 +99,7 @@
     </div>
   }
 
-  @for (c of cards(); track $index) {
+  @for (c of cards(); track c.id) {
     <article
       class="m-1 border-1 w-71 h-100 bg-amber-100 cursor-pointer"
       (click)="openInOverlay(c.id)"

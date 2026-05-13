@@ -1,25 +1,22 @@
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
-import { accueil } from './accueil';
-import { ajouter} from './ajouter';
-import { liste } from './liste';
+import { Accueil as Accueil } from './accueil';
+import { Ajouter as Ajouter } from './ajouter';
+import { Liste } from './liste';
 
-let routeAccueil={
-    path:"",
-    component:accueil,
-    title:"Bienvenue",
-}
-let routeAjouter={
-    path:"ajouter",
-    component:ajouter,
-    title:"Ajouter au catalogue"
-}
-let routeListe={
-    path:"liste",
-    component:liste,
-    title:"Consulter notre catalogue"
-}
+let routeAccueil = {
+  path: '',
+  component: Accueil,
+  title: 'Bienvenue',
+};
+let routeAjouter = {
+  path: 'ajouter',
+  component: Ajouter,
+  title: 'Ajouter au catalogue',
+};
+let routeListe = {
+  path: 'liste',
+  component: Liste,
+  title: 'Consulter notre catalogue',
+};
 
-export const routes: Routes = [
-    routeAccueil,routeAjouter,routeListe
-];
+export const routes: Routes = [routeAccueil, routeAjouter, routeListe];

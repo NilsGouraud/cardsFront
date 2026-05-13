@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { backEndUrl } from './app';
 import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,31 +12,34 @@ import { CarteForm } from './interfaces/carteForm.interface';
   templateUrl: 'liste.html',
   imports: [NgOptimizedImage, ReactiveFormsModule],
 })
-export class liste {
-  cards = signal<Carte[]>([]);
+export class Liste implements OnInit {
+  readonly cards = signal<Carte[]>([]);
   file: File | null = null;
   selectedCard: Carte | null = null;
   private apiService = inject(ApiService);
-  readonly formulaire = new FormGroup<CarteForm>({
-    nom: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    effet: new FormControl('', { nonNullable: true }),
-    description: new FormControl('', { nonNullable: true }),
-    type: new FormControl('', { nonNullable: true }),
-    atk: new FormControl('', { nonNullable: true }),
-    pdv: new FormControl('', { nonNullable: true }),
-    cout: new FormControl('', { nonNullable: true }),
-    id: new FormControl('', { nonNullable: true }),
-  });
+  readonly formulaire = this.initForm();
 
-  async sendGetRequest(): Promise<void> {
+  private initForm(): FormGroup<CarteForm> {
+    return new FormGroup<CarteForm>({
+      nom: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      effet: new FormControl('', { nonNullable: true }),
+      description: new FormControl('', { nonNullable: true }),
+      type: new FormControl('', { nonNullable: true }),
+      atk: new FormControl('', { nonNullable: true }),
+      pdv: new FormControl('', { nonNullable: true }),
+      cout: new FormControl('', { nonNullable: true }),
+      id: new FormControl('', { nonNullable: true }),
+    });
+  }
+  private async sendGetRequest(): Promise<void> {
     this.cards.set(await this.apiService.getCards());
   }
-  async sendUpdateRequest(): Promise<void> {
+  private async sendUpdateRequest(): Promise<void> {
     await this.apiService.updateCards(this.getFormContent());
     this.sendGetRequest();
   }
 
-  getFormContent(): FormData {
+  private getFormContent(): FormData {
     const formData = new FormData();
     const values = this.formulaire.getRawValue();
     console.log('logging the values');
@@ -49,7 +52,7 @@ export class liste {
     if (this.file) formData.append('image', this.file);
     return formData;
   }
-  async confirmChanges(): Promise<void> {
+  public async confirmChanges(): Promise<void> {
     let nom = this.formulaire.value.nom;
     if (nom === '') {
       alert('Veuillez renseigner un nom pour la carte');
@@ -66,7 +69,7 @@ export class liste {
     this.formulaire.reset();
     await this.sendGetRequest();
   }
-  openInOverlay(id: string) {
+  public openInOverlay(id: string) {
     this.selectedCard = this.findById(id);
     if (!this.selectedCard) return;
     this.formulaire.patchValue({
@@ -80,17 +83,17 @@ export class liste {
       id: this.selectedCard.id,
     });
   }
-  async closeOverlay() {
+  public async closeOverlay() {
     this.selectedCard = null;
     await this.sendGetRequest();
     this.file = null;
     this.formulaire.reset();
   }
-  setFile(event: Event): void {
+  public setFile(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.file = input.files?.[0] ?? null;
   }
-  findById(id: string): Carte | null {
+  private findById(id: string): Carte | null {
     return this.cards().find((c) => c.id === id) ?? null;
   }
 }
