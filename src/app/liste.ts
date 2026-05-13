@@ -1,10 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { backEndUrl } from './app';
 import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Carte } from './models/carte.model';
-
+import { ApiService } from './service/api.service';
+import { CarteForm } from './interfaces/carteForm.interface';
 @Component({
   standalone: true,
   selector: 'liste',
@@ -15,6 +16,7 @@ export class liste {
   cards = signal<Carte[]>([]);
   file: File | null = null;
   selectedCard: Carte | null = null;
+  private apiService = inject(ApiService);
   readonly formulaire = new FormGroup<CarteForm>({
     nom: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     effet: new FormControl('', { nonNullable: true }),
@@ -27,22 +29,11 @@ export class liste {
   });
 
   async sendGetRequest(): Promise<void> {
-    try {
-      const r = await fetch(backEndUrl + 'liste');
-      const data: Carte[] = await r.json();
-      this.cards.set(data);
-    } catch (e) {
-      console.error(`failed to get at ${backEndUrl}/liste`, e);
-    }
+    this.cards.set(await this.apiService.getCards());
   }
   async sendUpdateRequest(): Promise<void> {
-    let formData = this.getFormContent();
-    try {
-      await fetch(backEndUrl + 'liste', { method: 'PUT', body: formData });
-      await this.sendGetRequest();
-    } catch (e) {
-      console.error(`failed to put at ${backEndUrl}/liste`);
-    }
+    await this.apiService.updateCards(this.getFormContent());
+    this.sendGetRequest();
   }
 
   getFormContent(): FormData {
@@ -102,15 +93,4 @@ export class liste {
   findById(id: string): Carte | null {
     return this.cards().find((c) => c.id === id) ?? null;
   }
-}
-
-interface CarteForm {
-  nom: FormControl<string>;
-  effet: FormControl<string>;
-  description: FormControl<string>;
-  type: FormControl<string>;
-  atk: FormControl<string>;
-  pdv: FormControl<string>;
-  cout: FormControl<string>;
-  id: FormControl<string>;
 }
