@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -60,6 +60,16 @@ export class Liste implements OnInit {
   public setFile(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.file = input.files?.[0] ?? null;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (this.selectedCard) this.closeOverlay();
+  }
+
+  @HostListener('document:keydown.enter')
+  onEnter() {
+    if (this.selectedCard) this.confirmChanges();
   }
 
   private async sendGetRequest(): Promise<void> {
