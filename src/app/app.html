@@ -1,13 +1,14 @@
-<div class="2xl:text-2xl">
-  <nav class="justify-between border-b border-red-500">
+<div>
+  <nav class="text-sm md:text-2xl lg:text-3xl justify-between border-b border-red-500">
     <a routerLink="/" class="border-r border-red-500">Accueil</a>
     <a routerLink="liste" class="border-r border-red-500">Liste des cartes</a>
     <a routerLink="ajouter" class="border-r border-red-500">Ajouter une carte</a>
   </nav>
   <router-outlet />
-  <div>
-  <footer class="sticky absolute bottom-0">
-    <span class="block">Goblins of Brocéliande 2016 - 2026</span>
-  </footer>
+  <div class="m-2">
+    <div class="m-10"></div>
+    <footer class="text-xs md:text-sm lg:text-xl fixed absolute bottom-0">
+      <span class="block">Goblins of Brocéliande 2016 - 2026</span>
+    </footer>
   </div>
 </div>
