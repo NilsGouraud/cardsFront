@@ -1,9 +1,13 @@
+<header class="w-full text-xs md:text-sm lg:text-xl">
+  Voici notre catalogue de cartes. Vous pouvez librement éditer chaque carte en cliquant dessus.
+</header>
 <main class="flex flex-wrap">
-  <span>this is dedicated to the list</span>
   @if (selectedCard) {
-    <div class="fixed inset-0 flex justify-center items-center">
+    <div
+      class="fixed inset-0 flex justify-center items-center max-xl:flex-row xl:flex-col 2xl:scale-130"
+    >
       <div id="modalBackdrop" class="fixed inset-0 bg-black/50 z-0" (click)="closeOverlay()"></div>
-      <form [formGroup]="formulaire" class="m-1 border-1 w-71 h-100 bg-amber-100 scale-125">
+      <form [formGroup]="formulaire" class="m-1 border-1 w-71 bg-amber-100 z-1 rounded border-2">
         <div class="flex justify-between w-71 h-7">
           <input
             type="text"
@@ -29,40 +33,41 @@
           alt="image"
           width="200"
           height="200"
-          class="object-cover w-71 h-50 ring-1"
+          class="object-cover w-71 h-50 border-1 bg-black"
         />
-        <label for="fichier">cliquez ici pour choisir une autre image </label>
+        <label for="fichier" class="hover:cursor-pointer bg-white block"
+          >cliquez ici pour choisir une autre image
+        </label>
         <input
           id="fichier"
-          class="border-black-500 border-1 hover:cursor-pointer"
+          class="border-black-500 border-b w-70 hover:cursor-pointer bg-white"
           type="file"
           (change)="setFile($event)"
           placeholder=""
         />
-        <select class="ring-1" formControlName="type">
+        <select class="border-r" formControlName="type">
           <option value="{{ selectedCard.type }}" selected disabled>{{ selectedCard.type }}</option>
           <option value="créature">créature</option>
           <option value="éphémère">éphémère</option>
           <option value="rituel">rituel</option>
         </select>
-        <div class="flex flex-col justify-around w-71 h-30 ring-1">
+        <div id="texts" class="flex flex-col justify-around w-70 border-t border-b bg-amber-100">
           <textarea
             type="input"
-            class="truncate"
+            class=""
             value="{{ selectedCard.effet }}"
             placeholder="effet (facultatif)"
             formControlName="effet"
           ></textarea>
           <textarea
             type="input"
-            class="truncate"
+            class="bg-amber-100"
             value="{{ selectedCard.description }}"
             placeholder="description (facultatif)"
             formControlName="description"
           ></textarea>
         </div>
-
-        <div class="flex justify-between">
+        <div id="stats" class="flex justify-between bg-amber-100">
           <div></div>
           <div class="flex px-1">
             <input
@@ -82,27 +87,27 @@
             />
           </div>
         </div>
-        <div>
-          <button
-            class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
-            (click)="confirmChanges()"
-          >
-            confirmer les modification
-          </button>
-          <button
-            class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-xl hover:rounded bg-red-600 text-white hover:bg-white hover:text-red-600"
-            (click)="closeOverlay()"
-          >
-            annuler
-          </button>
-        </div>
       </form>
+      <div id="buttons" class="z-52 p-2 flex max-xl:flex-col xl:flex-row">
+        <button
+          class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-lg hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
+          (click)="confirmChanges()"
+        >
+          confirmer les modifications
+        </button>
+        <button
+          class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-lg hover:rounded bg-red-600 text-white hover:bg-white hover:text-red-600"
+          (click)="closeOverlay()"
+        >
+          annuler
+        </button>
+      </div>
     </div>
   }
 
   @for (c of cards(); track c.id) {
     <article
-      class="m-1 border-1 w-71 h-100 bg-amber-100 cursor-pointer"
+      class="m-1 border-1 w-71 h-100 bg-amber-100 cursor-pointer rounded"
       (click)="openInOverlay(c.id)"
     >
       <div class="flex justify-between w-71 h-7">
@@ -115,10 +120,10 @@
         alt="image"
         width="200"
         height="200"
-        class="object-cover w-71 h-50 ring-1"
+        class="object-contain w-71 h-50 border-1 bg-black"
       />
 
-      <div class="ring-1">{{ c.type }}</div>
+      <div class="border-b">{{ c.type }}</div>
       <div class="flex flex-col justify-around w-71 h-30 border-b-1">
         @if (c.effet && c.effet != 'N/A') {
           <div class="">{{ c.effet }}</div>

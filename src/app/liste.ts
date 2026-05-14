@@ -35,6 +35,7 @@ export class Liste implements OnInit {
     }
     await this.sendUpdateRequest();
     this.selectedCard = null;
+    this.file = null;
   }
 
   public openInOverlay(id: string) {
