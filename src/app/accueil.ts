@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { backEndUrl } from './app';
 @Component({
   selector: 'accueil',
