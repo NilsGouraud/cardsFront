@@ -10,6 +10,7 @@
             id="inputNom"
             formControlName="nom"
             class="px-1"
+            placeholder="Veuillez entrer un nom"
             value="{{ selectedCard.nom }}"
             required
           />
@@ -49,14 +50,14 @@
             type="input"
             class="truncate"
             value="{{ selectedCard.effet }}"
-            placeholder="effet"
+            placeholder="effet (facultatif)"
             formControlName="effet"
           ></textarea>
           <textarea
             type="input"
             class="truncate"
             value="{{ selectedCard.description }}"
-            placeholder="description"
+            placeholder="description (facultatif)"
             formControlName="description"
           ></textarea>
         </div>
@@ -125,9 +126,8 @@
           <div class="">sans effet</div>
         }
 
-        @if (c.description && c.description != 'N/A') {
-          <div class="mx-20 border-1"></div>
-        }
+        <div class="mx-20 border-1"></div>
+
         <div class="">
           @if (c.description && c.description != 'N/A') {
             <i>{{ c.description }}</i>

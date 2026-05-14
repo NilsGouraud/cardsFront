@@ -42,8 +42,8 @@ export class Liste implements OnInit {
     if (!this.selectedCard) return;
     this.formulaire.patchValue({
       nom: this.selectedCard.nom,
-      effet: this.selectedCard.effet,
-      description: this.selectedCard.description,
+      effet: this.selectedCard.effet == 'N/A' ? '' : this.selectedCard.effet,
+      description: this.selectedCard.description == 'N/A' ? '' : this.selectedCard.description,
       type: this.selectedCard.type,
       atk: this.selectedCard.atk,
       pdv: this.selectedCard.pdv,
@@ -86,7 +86,7 @@ export class Liste implements OnInit {
     console.log('logging the values');
     console.log(values);
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null) {
+      if (value != null || value != 'N/A') {
         formData.append(key, value.toString());
       }
     });
