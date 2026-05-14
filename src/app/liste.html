@@ -118,9 +118,23 @@
       />
 
       <div class="ring-1">{{ c.type }}</div>
-      <div class="flex flex-col justify-around w-71 h-30 ring-1">
-        <div class="">{{ c.effet }}</div>
-        <div class="">{{ c.description }}</div>
+      <div class="flex flex-col justify-around w-71 h-30 border-b-1">
+        @if (c.effet && c.effet != 'N/A') {
+          <div class="">{{ c.effet }}</div>
+        } @else {
+          <div class="">sans effet</div>
+        }
+
+        @if (c.description && c.description != 'N/A') {
+          <div class="mx-20 border-1"></div>
+        }
+        <div class="">
+          @if (c.description && c.description != 'N/A') {
+            <i>{{ c.description }}</i>
+          } @else {
+            <i>description indisponible</i>
+          }
+        </div>
       </div>
 
       <div class="flex justify-between">
