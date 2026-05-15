@@ -107,7 +107,7 @@
 
   @for (c of cards(); track c.id) {
     <article
-      class="m-1 border-1 w-71 h-100 bg-amber-100 cursor-pointer rounded"
+      class="m-1 border-2 w-71 h-100 bg-amber-100 cursor-pointer rounded"
       (click)="openInOverlay(c.id)"
     >
       <div class="flex justify-between w-71 h-7">
@@ -124,7 +124,7 @@
       />
 
       <div class="border-b">{{ c.type }}</div>
-      <div class="flex flex-col justify-around w-71 h-30 border-b-1">
+      <div class="flex flex-col justify-around w-70 h-30 border-b-1 overflow-y-auto">
         @if (c.effet && c.effet != 'N/A') {
           <div class="">{{ c.effet }}</div>
         } @else {
