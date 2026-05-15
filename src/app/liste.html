@@ -1,4 +1,4 @@
-<header class="w-full text-xs md:text-sm lg:text-xl">
+<header class="w-full text-lg 2xl:text-xl bg-black/80 text-white text-center border-white border-b">
   Voici notre catalogue de cartes. Vous pouvez librement éditer chaque carte en cliquant dessus.
 </header>
 <main class="flex flex-wrap">
@@ -7,7 +7,10 @@
       class="fixed inset-0 flex justify-center items-center max-xl:flex-row xl:flex-col 2xl:scale-130"
     >
       <div id="modalBackdrop" class="fixed inset-0 bg-black/60 z-0" (click)="closeOverlay()"></div>
-      <form [formGroup]="formulaire" class="m-1 border-1 w-71 bg-amber-100 z-1 rounded border-2">
+      <form
+        [formGroup]="formulaire"
+        class="m-1 border-1 w-71 bg-gray-700 text-white z-1 rounded border-2"
+      >
         <div class="flex justify-between w-71 h-7">
           <input
             type="text"
@@ -35,12 +38,12 @@
           height="200"
           class="object-cover w-71 h-50 border-1 bg-black"
         />
-        <label for="fichier" class="hover:cursor-pointer bg-white block"
+        <label for="fichier" class="hover:cursor-pointer bg-gray-600 block"
           >cliquez ici pour choisir une autre image
         </label>
         <input
           id="fichier"
-          class="border-black-500 border-b w-70 hover:cursor-pointer bg-white"
+          class="border-black-500 border-b w-70 hover:cursor-pointer bg-gray-600"
           type="file"
           (change)="setFile($event)"
           placeholder=""
@@ -51,7 +54,10 @@
           <option value="éphémère">éphémère</option>
           <option value="rituel">rituel</option>
         </select>
-        <div id="texts" class="flex flex-col justify-around w-70 border-t border-b bg-amber-100">
+        <div
+          id="texts"
+          class="flex flex-col justify-around w-70 border-t border-b bg-gray-700 text-white"
+        >
           <textarea
             type="input"
             class=""
@@ -61,13 +67,13 @@
           ></textarea>
           <textarea
             type="input"
-            class="bg-amber-100"
+            class="bg-gray-700 text-white"
             value="{{ selectedCard.description }}"
             placeholder="description (facultatif)"
             formControlName="description"
           ></textarea>
         </div>
-        <div id="stats" class="flex justify-between bg-amber-100">
+        <div id="stats" class="flex justify-between bg-gray-700 text-white">
           <div></div>
           <div class="flex px-1">
             <input
@@ -90,13 +96,13 @@
       </form>
       <div id="buttons" class="z-52 p-2 flex max-xl:flex-col xl:flex-row">
         <button
-          class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-lg hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
+          class="transition-all duration-100 z-52 cursor-pointer border-1 mx-1 rounded-lg hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
           (click)="confirmChanges()"
         >
           confirmer les modifications
         </button>
         <button
-          class="transition-all duration-100 z-52 cursor-pointer border-1 rounded-lg hover:rounded bg-red-600 text-white hover:bg-white hover:text-red-600"
+          class="transition-all duration-100 z-52 cursor-pointer border-1 mx-1 rounded-lg hover:rounded bg-red-600 text-white hover:bg-white hover:text-red-600"
           (click)="closeOverlay()"
         >
           annuler
@@ -107,7 +113,7 @@
 
   @for (c of cards(); track c.id) {
     <article
-      class="m-1 border-2 w-71 h-100 bg-amber-100 cursor-pointer rounded"
+      class="m-3 border-3 border-black w-71 h-100 bg-gray-700 text-white cursor-pointer rounded"
       (click)="openInOverlay(c.id)"
     >
       <div class="flex justify-between w-71 h-7">
@@ -120,18 +126,18 @@
         alt="image"
         width="200"
         height="200"
-        class="object-contain w-71 h-50 border-1 bg-black"
+        class="object-contain w-71 h-50 border-1 border-black bg-black"
       />
 
-      <div class="border-b">{{ c.type }}</div>
-      <div class="flex flex-col justify-around w-70 h-30 border-b-1 overflow-y-auto">
+      <div class="border-b border-red-500">{{ c.type }}</div>
+      <div class="flex flex-col justify-around w-70 h-30 border-b-1 border-red-500 overflow-y-auto">
         @if (c.effet && c.effet != 'N/A') {
           <div class="">{{ c.effet }}</div>
         } @else {
           <div class="">sans effet</div>
         }
 
-        <div class="mx-20 border-1"></div>
+        <div class="mx-20 border-1 border-red-500"></div>
 
         <div class="">
           @if (c.description && c.description != 'N/A') {
@@ -146,7 +152,7 @@
         <div></div>
         <div class="flex px-1">
           <div class="">{{ c.atk }}</div>
-          <span class="whitespace-pre"> | </span>
+          <span class="whitespace-pre text-red-500"> | </span>
           <div class="">{{ c.pdv }}</div>
         </div>
       </div>
