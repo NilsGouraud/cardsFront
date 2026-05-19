@@ -16,4 +16,8 @@ describe('liste', () => {
   it('should exist', () => {
     expect(component).toBeTruthy();
   });
+  it('should have its objects set to null', () => {
+    expect(component.file).toBe(null);
+    expect(component.selectedCard).toBe(null);
+  });
 });

@@ -20,8 +20,6 @@ describe('App', () => {
   });
 
   it('should render nav elements text.', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('nav')?.textContent).toContain('Accueil');
     expect(compiled.querySelector('nav')?.textContent).toContain('Liste des cartes');
