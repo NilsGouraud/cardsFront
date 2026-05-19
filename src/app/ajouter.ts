@@ -16,8 +16,8 @@ export class Ajouter {
   serverLog = '';
   file = '';
   formulaire = new FormGroup({
-    nom: new FormControl('carte', Validators.required),
-    effet: new FormControl('valeurEffet'),
+    nom: new FormControl('', Validators.required),
+    effet: new FormControl(''),
     description: new FormControl(''),
     type: new FormControl(''),
     atk: new FormControl(''),
