@@ -1,7 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { Accueil } from './accueil';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-describe('ajouter', () => {
+describe('component accueil', () => {
   let component: Accueil;
   let fixture: ComponentFixture<Accueil>;
   beforeEach(async () => {
