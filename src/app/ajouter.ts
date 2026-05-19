@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class Ajouter {
   confirmationRequired = false;
   isConfirmed = false;
-  isUpdated = false;
+  hasBeenUpdated = false;
   cards: carte[] = [];
   serverLog = '';
   file = '';
@@ -33,7 +33,7 @@ export class Ajouter {
     this.confirmationRequired = false;
   }
   closeUpdate() {
-    this.isUpdated = false;
+    this.hasBeenUpdated = false;
   }
 
   async sendGetRequest() {
@@ -51,7 +51,7 @@ export class Ajouter {
     const values = this.formulaire.value;
 
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
+      if (value) {
         formData.append(key, value);
       }
     });
@@ -77,7 +77,7 @@ export class Ajouter {
     }).then((r) => r.text());
     this.formulaire.reset();
     this.serverLog = res;
-    this.isUpdated = true;
+    this.hasBeenUpdated = true;
     this.isConfirmed = false;
     this.confirmationRequired = false;
   }
