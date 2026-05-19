@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { Accueil } from './accueil';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 describe('ajouter', () => {
@@ -11,5 +12,9 @@ describe('ajouter', () => {
   });
   it('should exist', () => {
     expect(component).toBeTruthy();
+  });
+  it('should have text', () => {
+    const element = fixture.debugElement.query(By.css('main')).nativeElement;
+    expect(element.textContent).toBeTruthy();
   });
 });

@@ -84,8 +84,8 @@ export class Liste implements OnInit {
   private getFormContent(): FormData {
     const formData = new FormData();
     const values = this.formulaire.getRawValue();
-    console.log('logging the values');
-    console.log(values);
+    // console.log('logging the values');
+    // console.log(values);
     Object.entries(values).forEach(([key, value]) => {
       if (value != null || value != 'N/A') {
         formData.append(key, value.toString());
