@@ -40,9 +40,7 @@ export class Ajouter {
     return await fetch(backEndUrl + 'ajouter', { method: 'GET' })
       .then((r) => r.json())
       .then((r) => {
-        console.log(r);
         this.cards = r;
-        console.log(this.cards);
       });
   }
   getFile(event: any) {
@@ -69,11 +67,9 @@ export class Ajouter {
       !this.isConfirmed &&
       this.cards.some((card: carte) => card.nom === this.formulaire.value.nom)
     ) {
-      console.log('card already exists; waiting for confirmation');
-      this.confirmationRequired = true; //TODO: ask for confirmation
+      this.confirmationRequired = true;
       return;
     }
-    console.log('sending form');
     const formData = this.getFormData();
     let res = await fetch(backEndUrl + 'ajouter', {
       method: 'POST',
