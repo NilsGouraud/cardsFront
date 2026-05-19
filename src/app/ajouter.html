@@ -1,5 +1,5 @@
 <main class="flex flex-around items-center flex-col text-white h-screen">
-  @if (isUpdated) {
+  @if (hasBeenUpdated) {
     <div (click)="closeUpdate()" class="fixed inset-0 bg-black/50 z-50"></div>
     <div class="z-51 bg-white flex flex-col rounded border-1 p-1">
       <span id="" class="block whitespace-pre-wrap">{{ serverLog }}</span>
