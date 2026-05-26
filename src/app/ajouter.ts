@@ -70,16 +70,18 @@ export class Ajouter {
       this.confirmationRequired = true;
       return;
     }
-    const formData = this.getFormData();
-    let res = await fetch(backEndUrl + 'ajouter', {
-      method: 'POST',
-      body: formData,
-    }).then((r) => r.text());
+    this.serverLog = await this.post(this.getFormData());
     this.formulaire.reset();
-    this.serverLog = res;
     this.hasBeenUpdated = true;
     this.isConfirmed = false;
     this.confirmationRequired = false;
+  }
+  async post(formData: FormData) {
+    let response = await fetch(backEndUrl + 'ajouter', {
+      method: 'POST',
+      body: formData,
+    }).then((r) => r.text());
+    return response;
   }
   ngOnInit() {
     this.sendGetRequest();
