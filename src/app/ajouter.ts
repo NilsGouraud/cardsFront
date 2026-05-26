@@ -84,9 +84,10 @@ export class Ajouter {
   ngOnInit() {
     this.sendGetRequest();
   }
+  /*unused
   replaceLineBreaks(text: string) {
     return text.replace(/\n/g, '<br>');
-  }
+  }*/
 }
 type carte = {
   id?: string;
