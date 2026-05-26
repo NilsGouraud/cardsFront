@@ -2,7 +2,7 @@
   @if (hasBeenUpdated) {
     <div (click)="closeUpdate()" class="fixed inset-0 bg-black/50 z-50"></div>
     <div class="z-51 bg-white flex flex-col rounded border-1 p-1">
-      <span id="" class="block whitespace-pre-wrap">{{ serverLog }}</span>
+      <span id="" class="block whitespace-pre-wrap text-black">{{ serverLog }}</span>
       <button
         (click)="closeUpdate()"
         class="transition-all duration-100 z-51 cursor-pointer border-1 rounded-xl hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
