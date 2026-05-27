@@ -24,7 +24,7 @@ export class Liste implements OnInit {
   }
 
   public async confirmChanges(): Promise<void> {
-    let nom = this.formulaire.value.nom;
+    const nom = this.formulaire.value.nom;
     if (nom === '') {
       alert('Veuillez renseigner un nom pour la carte');
       return;
