@@ -7,7 +7,5 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('cardsFront');
-}
+export class App {}
 export const backEndUrl = 'http://localhost:8080/';
