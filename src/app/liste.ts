@@ -12,6 +12,10 @@ import { CarteForm } from './interfaces/carteForm.interface';
   imports: [NgOptimizedImage, ReactiveFormsModule],
 })
 export class Liste implements OnInit {
+  async deleteCard() {
+    await this.apiService.deleteCard(this.selectedCard!.id);
+    await this.closeOverlay();
+  }
   readonly cards = signal<Carte[]>([]);
   file: File | null = null;
   selectedCard: Carte | null = null;
@@ -34,8 +38,7 @@ export class Liste implements OnInit {
       return;
     }
     await this.sendUpdateRequest();
-    this.selectedCard = null;
-    this.file = null;
+    await this.closeOverlay();
   }
 
   public openInOverlay(id: string) {

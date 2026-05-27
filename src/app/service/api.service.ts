@@ -3,6 +3,13 @@ import { backEndUrl } from '../app';
 import { Carte } from '../models/carte.model';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
+  async deleteCard(id: string): Promise<void> {
+    try {
+      await fetch(backEndUrl + 'liste/' + id, { method: 'DELETE' });
+    } catch (e) {
+      console.error(e, 'failed to delete at' + backEndUrl + 'liste');
+    }
+  }
   async getCards(): Promise<Carte[]> {
     try {
       const response = await fetch(backEndUrl + 'liste', { method: 'GET' });
