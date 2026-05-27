@@ -211,8 +211,8 @@ describe('component ajouter', () => {
     });
     it('should require confirmation if a card already exist and prevent any further action', async () => {
       const spy = vi.spyOn(component, 'post');
-      await component.sendGetRequest();
-      expect(component.cards[0]).toBeTruthy();
+      expect(component.cards).toStrictEqual([]);
+      component.cards[0] = { nom: 'test' };
       const card = component.cards[0];
       component.formulaire.get('nom')?.setValue(card.nom);
       await component.sendForm();
