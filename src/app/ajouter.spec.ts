@@ -3,6 +3,7 @@ import { Ajouter } from './ajouter';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { backEndUrl } from './app';
 
 describe('component ajouter', () => {
   let component: Ajouter;
@@ -56,6 +57,17 @@ describe('component ajouter', () => {
       expect(component.cards).toStrictEqual([]);
     });
   });
+  describe('confirmOverwrite', () => {
+    it('should set isConfirmed to true', () => {
+      component.confirmOverwrite();
+      expect(component.isConfirmed).toBe(true);
+    });
+    it('should call sendForm', () => {
+      const spy = vi.spyOn(component, 'sendForm');
+      component.confirmOverwrite();
+      expect(spy).toHaveBeenCalledOnce();
+    });
+  });
   describe('closeConfirmation', () => {
     it('should be false', () => {
       component.confirmationRequired = true;
@@ -70,16 +82,15 @@ describe('component ajouter', () => {
       expect(component.hasBeenUpdated).toBe(false);
     });
   });
-
-  describe('confirmOverwrite', () => {
-    it('should set isConfirmed to true', () => {
-      component.confirmOverwrite();
-      expect(component.isConfirmed).toBe(true);
-    });
-    it('should call sendForm', () => {
-      const spy = vi.spyOn(component, 'sendForm');
-      component.confirmOverwrite();
+  describe('sendGetRequest', () => {
+    it('should fetch', async () => {
+      const spy = vi.spyOn(window, 'fetch');
+      await component.sendGetRequest();
       expect(spy).toHaveBeenCalledOnce();
+    });
+    it('should update cards value', async () => {
+      const result = await component.sendGetRequest();
+      expect(component.cards).toStrictEqual(result);
     });
   });
   describe('getFile', () => {
@@ -122,10 +133,14 @@ describe('component ajouter', () => {
   });
   describe('getFormData', () => {
     it('should be empty', () => {
-      let returnValue = component.getFormData();
-      returnValue.forEach((value) => {
-        expect(value).toBeFalsy();
+      const formData = component.getFormData();
+      formData.forEach((value) => {
+        expect(value).toStrictEqual('');
       });
+    });
+    it('should have an image field', () => {
+      const image = component.getFormData().get('image');
+      expect(image).toStrictEqual('');
     });
     it('should contain 1 2 3 4... as strings', () => {
       component.getFormData();
@@ -179,11 +194,23 @@ describe('component ajouter', () => {
     });
   });
   describe('sendForm', () => {
+    //TODO : mock the post method
     it('should fetch', async () => {
       const mockResponse = { text: 'all good' };
-      const spy = vi.spyOn(window, 'fetch');
+      const spy = vi.spyOn(component, 'post');
       await component.sendForm();
       expect(spy).toHaveBeenCalledOnce();
+    });
+  });
+  describe('post', () => {
+    it('should fetch', async () => {
+      const spy = vi.spyOn(window, 'fetch');
+      const formData = component.getFormData();
+      const returnValue = await component.post(formData);
+      expect(spy).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
+        method: 'POST',
+        body: formData,
+      });
     });
   });
   describe('ngOnInit', () => {
