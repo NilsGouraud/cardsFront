@@ -36,11 +36,12 @@ export class Ajouter {
     this.hasBeenUpdated = false;
   }
 
-  async sendGetRequest() {
+  async sendGetRequest(): Promise<carte[]> {
     return await fetch(backEndUrl + 'ajouter', { method: 'GET' })
       .then((r) => r.json())
       .then((r) => {
         this.cards = r;
+        return this.cards;
       });
   }
   getFile(event: any) {
