@@ -194,9 +194,7 @@ describe('component ajouter', () => {
     });
   });
   describe('sendForm', () => {
-    //TODO : mock the post method
-    it('should fetch', async () => {
-      const mockResponse = { text: 'all good' };
+    it('should fetch through post', async () => {
       const spy = vi.spyOn(component, 'post');
       await component.sendForm();
       expect(spy).toHaveBeenCalledOnce();
