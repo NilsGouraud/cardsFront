@@ -132,18 +132,11 @@ describe('component ajouter', () => {
     });
   });
   describe('getFormData', () => {
-    it('should be empty', () => {
-      const formData = component.getFormData();
-      formData.forEach((value) => {
-        expect(value).toStrictEqual('');
-      });
-    });
-    it('should have an image field', () => {
+    it('should have an image field no matter what', () => {
       const image = component.getFormData().get('image');
       expect(image).toStrictEqual('');
     });
-    it('should contain 1 2 3 4... as strings', () => {
-      component.getFormData();
+    it('should have 8 fields once the formGroup is filled', () => {
       const nom = component.formulaire.get('nom')!;
       const effet = component.formulaire.get('effet')!;
       const description = component.formulaire.get('description')!;
@@ -151,6 +144,10 @@ describe('component ajouter', () => {
       const pdv = component.formulaire.get('pdv')!;
       const atk = component.formulaire.get('atk')!;
       const cout = component.formulaire.get('cout')!;
+
+      let count = 0;
+      component.getFormData().forEach((element) => count++);
+      expect(count).toBe(1);
 
       expect(nom).toBeTruthy();
       expect(effet).toBeTruthy();
@@ -167,6 +164,7 @@ describe('component ajouter', () => {
       expect(pdv.value).toStrictEqual('');
       expect(atk.value).toStrictEqual('');
       expect(cout.value).toStrictEqual('');
+
       nom.setValue('1');
       effet.setValue('2');
       description.setValue('3');
@@ -174,6 +172,10 @@ describe('component ajouter', () => {
       pdv.setValue('5');
       atk.setValue('6');
       cout.setValue('7');
+
+      count = 0;
+      component.getFormData().forEach((element) => count++);
+      expect(count).toBe(8);
 
       expect(nom.value).toStrictEqual('1');
       expect(effet.value).toStrictEqual('2');
@@ -198,6 +200,24 @@ describe('component ajouter', () => {
       const spy = vi.spyOn(component, 'post');
       await component.sendForm();
       expect(spy).toHaveBeenCalledOnce();
+    });
+    it('should set flags', async () => {
+      component.isConfirmed = true;
+      component.confirmationRequired = true;
+      await component.sendForm();
+      expect(component.hasBeenUpdated).toBe(true);
+      expect(component.isConfirmed).toBe(false);
+      expect(component.confirmationRequired).toBe(false);
+    });
+    it('should require confirmation if a card already exist and prevent any further action', async () => {
+      const spy = vi.spyOn(component, 'post');
+      await component.sendGetRequest();
+      expect(component.cards[0]).toBeTruthy();
+      const card = component.cards[0];
+      component.formulaire.get('nom')?.setValue(card.nom);
+      await component.sendForm();
+      expect(component.confirmationRequired).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(0);
     });
   });
   describe('post', () => {
