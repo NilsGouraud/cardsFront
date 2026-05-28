@@ -90,7 +90,8 @@ export class Liste implements OnInit {
     // console.log('logging the values');
     // console.log(values);
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null || value != 'N/A') {
+      if (value != undefined && value != null && value != 'N/A') {
+        console.log(key + ' ' + value);
         formData.append(key, value.toString());
       }
     });
