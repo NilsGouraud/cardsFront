@@ -10,6 +10,7 @@
       <form
         [formGroup]="formulaire"
         class="m-1 border-1 w-71 bg-gray-700 text-white z-1 rounded border-2"
+        data-cy="cardInForm"
       >
         <div class="flex justify-between w-71 h-7">
           <input
@@ -153,6 +154,7 @@
     <article
       class="m-3 border-3 border-black w-71 h-100 bg-gray-700 text-white cursor-pointer rounded"
       (click)="openInOverlay(c.id)"
+      data-cy="cardInList"
     >
       <div class="flex justify-between w-71 h-7">
         <div class="px-1">{{ c.nom }}</div>
