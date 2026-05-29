@@ -105,6 +105,7 @@
         <button
           class="transition-all duration-100 z-52 cursor-pointer border-1 mx-1 rounded-lg hover:rounded bg-green-600 text-white hover:bg-white hover:text-green-600"
           (click)="closeOverlay()"
+          data-cy="cancelButton"
         >
           annuler
         </button>
@@ -113,6 +114,7 @@
         <button
           class="transition-all duration-100 z-52 cursor-pointer border-1 mx-1 rounded-lg hover:rounded bg-red-600 text-white hover:bg-white hover:text-red-600"
           (click)="deleteCard()"
+          data-cy="deleteButton"
         >
           supprimer la carte
           <svg
@@ -157,8 +159,8 @@
       data-cy="cardInList"
     >
       <div class="flex justify-between w-71 h-7">
-        <div class="px-1">{{ c.nom }}</div>
-        <div class="px-1">{{ c.cout }}</div>
+        <div class="px-1" data-cy="nom">{{ c.nom }}</div>
+        <div class="px-1" data-cy="cout">{{ c.cout }}</div>
       </div>
 
       <img
@@ -172,14 +174,14 @@
       <div class="border-b border-red-500">{{ c.type }}</div>
       <div class="flex flex-col justify-around w-70 h-30 border-b-1 border-red-500 overflow-y-auto">
         @if (c.effet && c.effet != 'N/A') {
-          <div class="">{{ c.effet }}</div>
+          <div class="" data-cy="effet">{{ c.effet }}</div>
         } @else {
-          <div class="">sans effet</div>
+          <div class="" data-cy="effet">sans effet</div>
         }
 
         <div class="mx-20 border-1 border-red-500"></div>
 
-        <div class="">
+        <div class="" data-cy="description">
           @if (c.description && c.description != 'N/A') {
             <i>{{ c.description }}</i>
           } @else {
@@ -191,9 +193,9 @@
       <div class="flex justify-between">
         <div></div>
         <div class="flex px-1">
-          <div class="">{{ c.atk }}</div>
+          <div class="" data-cy="atk">{{ c.atk }}</div>
           <span class="whitespace-pre text-red-500"> | </span>
-          <div class="">{{ c.pdv }}</div>
+          <div class="" data-cy="pdv">{{ c.pdv }}</div>
         </div>
       </div>
     </article>
