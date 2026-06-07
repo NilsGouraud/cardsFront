@@ -28,6 +28,7 @@
             value="{{ selectedCard.cout }}"
             placeholder="???"
             formControlName="cout"
+            id="inputCout"
           />
           <input formControlName="id" class="hidden" type="text" />
         </div>
@@ -49,7 +50,7 @@
           (change)="setFile($event)"
           placeholder=""
         />
-        <select class="border-r" formControlName="type">
+        <select class="border-r" formControlName="type" id="inputType">
           <option value="{{ selectedCard.type }}" selected disabled>{{ selectedCard.type }}</option>
           <option value="créature">créature</option>
           <option value="éphémère">éphémère</option>
@@ -65,6 +66,7 @@
             value="{{ selectedCard.effet }}"
             placeholder="effet (facultatif)"
             formControlName="effet"
+            id="inputEffet"
           ></textarea>
           <textarea
             type="input"
@@ -72,6 +74,7 @@
             value="{{ selectedCard.description }}"
             placeholder="description (facultatif)"
             formControlName="description"
+            id="inputDescription"
           ></textarea>
         </div>
         <div id="stats" class="flex justify-between bg-gray-700 text-white">
@@ -83,6 +86,7 @@
               value="{{ selectedCard.atk }}"
               placeholder="???"
               formControlName="atk"
+              id="inputAtk"
             />
             <span class="whitespace-pre"> </span>
             <input
@@ -91,6 +95,7 @@
               value="{{ selectedCard.pdv }}"
               placeholder="???"
               formControlName="pdv"
+              id="inputPdv"
             />
           </div>
         </div>
@@ -99,6 +104,7 @@
         <button
           class="transition-all duration-100 z-52 cursor-pointer border-1 mx-1 rounded-lg hover:rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600"
           (click)="confirmChanges()"
+          data-cy="confirmButton"
         >
           confirmer les modifications
         </button>
