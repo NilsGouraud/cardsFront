@@ -52,9 +52,10 @@ export class Ajouter {
     const values = this.formulaire.value;
 
     Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        formData.append(key, value);
-      }
+      if (value === undefined) return;
+      if (value === null) return;
+      if (value === '') return;
+      formData.append(key, value);
     });
     formData.append('image', this.file);
     return formData;
