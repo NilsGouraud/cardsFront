@@ -15,22 +15,27 @@
     <div
       id="modalBackdrop"
       (click)="closeConfirmation()"
-      class="fixed inset-0 bg-black/50 z-50 fixed inset-0 flex flex-col justify-center items-center"
+      class="fixed inset-0 bg-black/50 z-50 fixed flex flex-col justify-center items-center"
     ></div>
-    <div class="fixed flex flex-col inset-0 justify-center items-center z-50">
-      <div class="text-center bg-white p-5 rounded-lg z-51 border-1">
+    <div class="fixed flex flex-col inset-0 justify-center items-center z-50 pointer-events-none">
+      <div
+        class="text-center bg-white p-5 rounded-lg z-51 border-1 text-black pointer-events-auto"
+        id="modal"
+      >
         Une carte nommée "{{ formulaire.value.nom }}" existe déjà. Êtes-vous sur de vouloir la
         remplacer?
         <div class="flex flex-row justify-around">
           <button
             (click)="confirmOverwrite()"
             class="transition-all duration-200 m-1 p-1 cursor-pointer border-black border-1 bg-red-600 text-white hover:tracking-[2px] hover:text-red-600 hover:bg-white"
+            id="confirmButton"
           >
             overwrite
           </button>
           <button
             (click)="closeConfirmation()"
             class="transition-all duration-200 m-1 p-1 cursor-pointer border-black border-1 bg-gray-600 text-white hover:tracking-[2px] hover:text-black hover:bg-white"
+            id="cancelButton"
           >
             cancel
           </button>

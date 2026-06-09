@@ -138,10 +138,10 @@ describe('component liste', () => {
     });
   });
   describe('onEscape', () => {
-    it('should call closeOverlay if a card is selected', () => {
+    it('should call closeOverlay if a card is selected', async () => {
       const spy = vi.spyOn(component, 'closeOverlay');
       component.selectedCard = new Carte();
-      component.onEscape();
+      await component.onEscape();
       expect(spy).toHaveBeenCalledOnce();
     });
     it('should not call closeOverlay if no card is selected', () => {

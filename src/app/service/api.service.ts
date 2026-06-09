@@ -15,7 +15,7 @@ export class ApiService {
       const response = await fetch(backEndUrl + 'liste', { method: 'GET' });
       return response.json();
     } catch (e) {
-      console.error(e, 'failed to get at' + backEndUrl + 'liste');
+      console.error(e, 'failed to get at ' + backEndUrl + 'liste');
     }
     return [];
   }
