@@ -83,15 +83,15 @@ describe('component ajouter', () => {
   });
   describe('sendGetRequest', () => {
     it('should send a get request', async () => {
-      const fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue({
+      const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
         json: () => Promise.resolve({}),
       } as Response);
       const result = await component.sendGetRequest();
-      expect(fetchSpy).toHaveBeenCalledOnce();
+      expect(spyFetch).toHaveBeenCalledOnce();
     });
     it('should update cards value', async () => {
       const mockCards = [{ nom: 'card1' }, { nom: 'card2' }];
-      const spy = vi
+      const spyFetch = vi
         .spyOn(window, 'fetch')
         .mockResolvedValue({ json: () => Promise.resolve(mockCards) } as Response);
       const result = await component.sendGetRequest();
