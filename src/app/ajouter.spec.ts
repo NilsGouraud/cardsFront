@@ -64,15 +64,13 @@ describe('component ajouter', () => {
       component.confirmOverwrite();
       expect(component.isConfirmed).toBe(true);
     });
-    it('should call sendForm', () => {
-      it('should send a get request', async () => {
-        const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
-          json: () => Promise.resolve({}),
-        } as Response);
-        const spy = vi.spyOn(component, 'sendForm');
-        component.confirmOverwrite();
-        expect(spy).toHaveBeenCalledOnce();
-      });
+    it('should send a get request', async () => {
+      const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({}),
+      } as Response);
+      const spy = vi.spyOn(component, 'sendForm');
+      component.confirmOverwrite();
+      expect(spy).toHaveBeenCalledOnce();
     });
     describe('closeConfirmation', () => {
       it('should be false', () => {
