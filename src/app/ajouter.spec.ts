@@ -213,6 +213,9 @@ describe('component ajouter', () => {
       });
     });
     it('should set flags', async () => {
+      const spyFetch = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
       component.isConfirmed = true;
       component.confirmationRequired = true;
       await component.sendForm();
