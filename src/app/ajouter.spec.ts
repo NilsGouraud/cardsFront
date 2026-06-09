@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { backEndUrl } from './app';
+import { MockInstance } from 'vitest';
 describe('component ajouter', () => {
   let component: Ajouter;
   let fixture: ComponentFixture<Ajouter>;
-  let spyFetch;
+  let spyFetch: MockInstance;
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [Ajouter],
@@ -14,7 +15,7 @@ describe('component ajouter', () => {
     fixture = TestBed.createComponent(Ajouter);
     component = fixture.componentInstance;
     await fixture.whenStable();
-    const spyFetch = vi
+    spyFetch = vi
       .spyOn(window, 'fetch')
       .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
   });
