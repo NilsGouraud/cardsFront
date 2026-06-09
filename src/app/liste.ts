@@ -42,8 +42,9 @@ export class Liste implements OnInit {
   }
 
   public openInOverlay(id: string) {
-    this.selectedCard = this.findById(id);
-    if (!this.selectedCard) return;
+    if (!id) return;
+    if (!this.findById(id)) return;
+    this.selectedCard = this.findById(id)!;
     this.formulaire.patchValue({
       nom: this.selectedCard.nom,
       effet: this.selectedCard.effet == 'N/A' ? '' : this.selectedCard.effet,
@@ -100,7 +101,8 @@ export class Liste implements OnInit {
   }
 
   private findById(id: string): Carte | null {
-    return this.cards().find((c) => c.id === id) ?? null;
+    const array: Array<Carte> = this.cards();
+    return array.find((c) => c.id === id) ?? null;
   }
   private initForm(): FormGroup<CarteForm> {
     return new FormGroup<CarteForm>({
