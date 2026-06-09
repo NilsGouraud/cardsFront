@@ -207,11 +207,12 @@ describe('component ajouter', () => {
     });
     describe('sendForm', () => {
       it('should fetch with method post', async () => {
-        const spy = vi
+        vi.spyOn(component, 'sendGetRequest');
+        const spyFetch = vi
           .spyOn(window, 'fetch')
           .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
         await component.sendForm();
-        expect(spy).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
+        expect(spyFetch).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
           method: 'POST',
           body: component.getFormData(),
         });
