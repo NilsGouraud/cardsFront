@@ -1,20 +1,18 @@
-import { DebugElement } from '@angular/core';
 import { Ajouter } from './ajouter';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { backEndUrl } from './app';
-import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
 describe('component ajouter', () => {
   let component: Ajouter;
   let fixture: ComponentFixture<Ajouter>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({ imports: [Ajouter] }).compileComponents();
+    TestBed.configureTestingModule({
+      imports: [Ajouter],
+    }).compileComponents();
     fixture = TestBed.createComponent(Ajouter);
     component = fixture.componentInstance;
-
     await fixture.whenStable();
   });
   afterEach(() => {
@@ -84,16 +82,21 @@ describe('component ajouter', () => {
     });
   });
   describe('sendGetRequest', () => {
-    it('should fetch', async () => {
-      const spy = vi.spyOn(window, 'fetch');
-      const httpClient = TestBed.inject(HttpClient);
-      const postSpy = vi.spyOn(httpClient, 'get').mockReturnValue(of({ success: true }));
-      await component.sendGetRequest();
-      expect(spy).toHaveBeenCalledOnce();
+    it('should send a get request', async () => {
+      const fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({}),
+      } as Response);
+      const result = await component.sendGetRequest();
+      expect(fetchSpy).toHaveBeenCalledOnce();
     });
     it('should update cards value', async () => {
+      const mockCards = [{ nom: 'card1' }, { nom: 'card2' }];
+      const spy = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ json: () => Promise.resolve(mockCards) } as Response);
       const result = await component.sendGetRequest();
-      expect(component.cards).toStrictEqual(result);
+      expect(component.cards).toEqual(mockCards);
+      expect(result).toEqual(mockCards);
     });
   });
   describe('getFile', () => {
@@ -199,12 +202,15 @@ describe('component ajouter', () => {
     });
   });
   describe('sendForm', () => {
-    it('should fetch through post', async () => {
-      const spy = vi.spyOn(component, 'post');
-      const httpClient = TestBed.inject(HttpClient);
-      const postSpy = vi.spyOn(httpClient, 'post').mockReturnValue(of({ success: true }));
+    it('should fetch with method post', async () => {
+      const spy = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
       await component.sendForm();
-      expect(spy).toHaveBeenCalledOnce();
+      expect(spy).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
+        method: 'POST',
+        body: component.getFormData(),
+      });
     });
     it('should set flags', async () => {
       component.isConfirmed = true;
@@ -215,19 +221,23 @@ describe('component ajouter', () => {
       expect(component.confirmationRequired).toBe(false);
     });
     it('should require confirmation if a card already exist and prevent any further action', async () => {
-      const spy = vi.spyOn(component, 'post');
+      const spyFetch = vi.spyOn(window, 'fetch');
+      const spyPost = vi.spyOn(component, 'post');
       expect(component.cards).toStrictEqual([]);
       component.cards[0] = { nom: 'test' };
       const card = component.cards[0];
       component.formulaire.get('nom')?.setValue(card.nom);
       await component.sendForm();
       expect(component.confirmationRequired).toBe(true);
-      expect(spy).toHaveBeenCalledTimes(0);
+      expect(spyFetch).toHaveBeenCalledTimes(0);
+      expect(spyPost).toHaveBeenCalledTimes(0);
     });
   });
   describe('post', () => {
     it('should fetch', async () => {
-      const spy = vi.spyOn(window, 'fetch');
+      const spy = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
       const formData = component.getFormData();
       const returnValue = await component.post(formData);
       expect(spy).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
@@ -238,9 +248,13 @@ describe('component ajouter', () => {
   });
   describe('ngOnInit', () => {
     it('should call sendGetRequest', () => {
-      const spy = vi.spyOn(component, 'sendGetRequest');
+      const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
+        text: () => Promise.resolve({}),
+      } as Response);
+      const spySendGetRequest = vi.spyOn(component, 'sendGetRequest');
       component.ngOnInit();
-      expect(spy).toHaveBeenCalledOnce();
+      expect(spySendGetRequest).toHaveBeenCalledOnce();
+      expect(spyFetch).toHaveBeenCalledOnce();
     });
   });
 });
