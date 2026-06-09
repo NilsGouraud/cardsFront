@@ -4,7 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { backEndUrl } from './app';
-
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 describe('component ajouter', () => {
   let component: Ajouter;
   let fixture: ComponentFixture<Ajouter>;
@@ -198,6 +199,8 @@ describe('component ajouter', () => {
   describe('sendForm', () => {
     it('should fetch through post', async () => {
       const spy = vi.spyOn(component, 'post');
+      const httpClient = TestBed.inject(HttpClient);
+      const postSpy = vi.spyOn(httpClient, 'post').mockReturnValue(of({ success: true }));
       await component.sendForm();
       expect(spy).toHaveBeenCalledOnce();
     });
