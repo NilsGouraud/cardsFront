@@ -32,6 +32,9 @@ describe('component liste', () => {
 
   describe('ngOnInit', () => {
     it('should reset the form', () => {
+      const spyFetch = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ json: () => Promise.resolve({}) } as Response);
       const nom = component.formulaire.get('nom')!;
       nom.setValue('test');
       expect(nom.value).toStrictEqual('test');
