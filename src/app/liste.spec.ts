@@ -49,9 +49,10 @@ describe('component liste', () => {
     });
     it('should alert if the name field contains the name of an unselected card', async () => {
       const spyAlert = vi.spyOn(window, 'alert');
-      const spySendUpdateRequest = vi
-        .spyOn(component as any, 'sendUpdateRequest')
-        .mockResolvedValue(undefined);
+      const spyFetch = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ json: () => Promise.resolve({}) } as Response);
+      const spySendUpdateRequest = vi.spyOn(component as any, 'sendUpdateRequest');
       component.cards.set([
         {
           id: '1',
@@ -73,6 +74,9 @@ describe('component liste', () => {
     });
     it('should call sendUpdateRequest and set the selected card and file to null', async () => {
       const spyAlert = vi.spyOn(window, 'alert');
+      const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({}),
+      } as Response);
       const spySendUpdateRequest = vi
         .spyOn(component as any, 'sendUpdateRequest')
         .mockResolvedValue(undefined);
@@ -120,6 +124,9 @@ describe('component liste', () => {
   });
   describe('closeOverlay', () => {
     it('should reset the form and clear the selected card and file', async () => {
+      const spyFetch = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ json: () => Promise.resolve({}) } as Response);
       const nom = component.formulaire.get('nom')!;
       nom.setValue('test');
       component.selectedCard = new Carte();
@@ -127,6 +134,13 @@ describe('component liste', () => {
       await component.closeOverlay();
       expect(component.file).toBe(null);
       expect(component.selectedCard).toBe(null);
+    });
+    it('should fetch the cards again, in case changes have been made', () => {
+      const spyFetch = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ json: () => Promise.resolve({}) } as Response);
+      component.closeOverlay();
+      expect(spyFetch).toHaveBeenCalled();
     });
   });
   describe('setFile', () => {
@@ -139,6 +153,9 @@ describe('component liste', () => {
   });
   describe('onEscape', () => {
     it('should call closeOverlay if a card is selected', async () => {
+      const spyFetch = vi
+        .spyOn(window, 'fetch')
+        .mockResolvedValue({ json: () => Promise.resolve({}) } as Response);
       const spy = vi.spyOn(component, 'closeOverlay');
       component.selectedCard = new Carte();
       await component.onEscape();
