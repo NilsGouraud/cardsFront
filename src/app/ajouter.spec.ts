@@ -86,6 +86,8 @@ describe('component ajouter', () => {
   describe('sendGetRequest', () => {
     it('should fetch', async () => {
       const spy = vi.spyOn(window, 'fetch');
+      const httpClient = TestBed.inject(HttpClient);
+      const postSpy = vi.spyOn(httpClient, 'get').mockReturnValue(of({ success: true }));
       await component.sendGetRequest();
       expect(spy).toHaveBeenCalledOnce();
     });
