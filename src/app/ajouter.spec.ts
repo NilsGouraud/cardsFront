@@ -12,12 +12,13 @@ describe('component ajouter', () => {
     TestBed.configureTestingModule({
       imports: [Ajouter],
     }).compileComponents();
+    spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
+      text: () => Promise.resolve({}),
+      json: () => Promise.resolve([]),
+    } as Response);
     fixture = TestBed.createComponent(Ajouter);
     component = fixture.componentInstance;
     await fixture.whenStable();
-    spyFetch = vi
-      .spyOn(window, 'fetch')
-      .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
   });
   afterEach(() => {
     vi.restoreAllMocks();
@@ -89,11 +90,8 @@ describe('component ajouter', () => {
     });
     describe('sendGetRequest', () => {
       it('should send a get request', async () => {
-        const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
-          json: () => Promise.resolve({}),
-        } as Response);
-        const result = await component.sendGetRequest();
-        expect(spyFetch).toHaveBeenCalledOnce();
+        await component.sendGetRequest();
+        expect(spyFetch).toHaveBeenCalledTimes(2);
       });
       it('should update cards value', async () => {
         const mockCards = [{ nom: 'card1' }, { nom: 'card2' }];
@@ -209,10 +207,11 @@ describe('component ajouter', () => {
     });
     describe('sendForm', () => {
       it('should fetch with method post', async () => {
-        vi.spyOn(component, 'sendGetRequest');
-
+        const spyPost = vi.spyOn(component, 'post');
+        component.isConfirmed = true;
         await component.sendForm();
-        expect(spyFetch).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
+        expect(spyPost).toHaveBeenCalledOnce();
+        expect(spyFetch).toHaveBeenNthCalledWith(2, backEndUrl + 'ajouter', {
           method: 'POST',
           body: component.getFormData(),
         });
@@ -226,7 +225,6 @@ describe('component ajouter', () => {
         expect(component.confirmationRequired).toBe(false);
       });
       it('should require confirmation if a card already exist and prevent any further action', async () => {
-        const spyFetch = vi.spyOn(window, 'fetch');
         const spyPost = vi.spyOn(component, 'post');
         expect(component.cards).toStrictEqual([]);
         component.cards[0] = { nom: 'test' };
@@ -234,7 +232,7 @@ describe('component ajouter', () => {
         component.formulaire.get('nom')?.setValue(card.nom);
         await component.sendForm();
         expect(component.confirmationRequired).toBe(true);
-        expect(spyFetch).toHaveBeenCalledTimes(0);
+        expect(spyFetch).toHaveBeenCalledTimes(1);
         expect(spyPost).toHaveBeenCalledTimes(0);
       });
     });
@@ -253,13 +251,10 @@ describe('component ajouter', () => {
     });
     describe('ngOnInit', () => {
       it('should call sendGetRequest', () => {
-        const spyFetch = vi.spyOn(window, 'fetch').mockResolvedValue({
-          text: () => Promise.resolve({}),
-        } as Response);
         const spySendGetRequest = vi.spyOn(component, 'sendGetRequest');
         component.ngOnInit();
         expect(spySendGetRequest).toHaveBeenCalledOnce();
-        expect(spyFetch).toHaveBeenCalledOnce();
+        expect(spyFetch).toHaveBeenCalledTimes(2);
       });
     });
   });
