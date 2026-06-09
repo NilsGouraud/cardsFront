@@ -6,7 +6,7 @@ import { backEndUrl } from './app';
 describe('component ajouter', () => {
   let component: Ajouter;
   let fixture: ComponentFixture<Ajouter>;
-
+  let spyFetch;
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [Ajouter],
@@ -14,6 +14,9 @@ describe('component ajouter', () => {
     fixture = TestBed.createComponent(Ajouter);
     component = fixture.componentInstance;
     await fixture.whenStable();
+    const spyFetch = vi
+      .spyOn(window, 'fetch')
+      .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
   });
   afterEach(() => {
     vi.restoreAllMocks();
@@ -208,9 +211,7 @@ describe('component ajouter', () => {
     describe('sendForm', () => {
       it('should fetch with method post', async () => {
         vi.spyOn(component, 'sendGetRequest');
-        const spyFetch = vi
-          .spyOn(window, 'fetch')
-          .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
+
         await component.sendForm();
         expect(spyFetch).toHaveBeenCalledWith(backEndUrl + 'ajouter', {
           method: 'POST',
@@ -218,9 +219,6 @@ describe('component ajouter', () => {
         });
       });
       it('should set flags', async () => {
-        const spyFetch = vi
-          .spyOn(window, 'fetch')
-          .mockResolvedValue({ text: () => Promise.resolve({}) } as Response);
         component.isConfirmed = true;
         component.confirmationRequired = true;
         await component.sendForm();
