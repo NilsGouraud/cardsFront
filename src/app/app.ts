@@ -8,7 +8,7 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   providers: [
     {
       provide: APP_BASE_HREF,
-      useValue: '/cardsFront',
+      useValue: '/cardsFront/',
     },
   ],
   templateUrl: './app.html',
