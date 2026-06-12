@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,17 +12,21 @@ import { CarteForm } from './interfaces/carteForm.interface';
   imports: [NgOptimizedImage, ReactiveFormsModule],
 })
 export class Liste implements OnInit {
-  dots: string = '.';
+  dots: WritableSignal<string> = signal('.');
   readonly cards = signal<Carte[]>([]);
   file: File | null = null;
   selectedCard: Carte | null = null;
   readonly formulaire = this.initForm();
   private readonly apiService = inject(ApiService);
-
+  updating = false;
+  interval: null | number = null;
   public async ngOnInit() {
     this.formulaire.reset();
     this.startLoadAnimation();
     await this.sendGetRequest();
+  }
+  public ngOnDestroy() {
+    if (this.interval) clearInterval(this.interval);
   }
   async deleteCard() {
     await this.apiService.deleteCard(this.selectedCard!.id);
@@ -39,8 +43,14 @@ export class Liste implements OnInit {
       alert('Nom déjà pris ; veuillez réessayer');
       return;
     }
-    await this.sendUpdateRequest();
+    try {
+      await this.sendUpdateRequest();
+      this.updating = true;
+      this.startLoadAnimation();
+    } finally {
+    }
     await this.closeOverlay();
+    this.updating = false;
   }
 
   public openInOverlay(id: string) {
@@ -119,17 +129,24 @@ export class Liste implements OnInit {
     });
   }
   private cycleDots(): void {
-    if (this.dots.length < 3) {
-      this.dots += '.';
+    let currentDots = this.dots();
+    if (currentDots.length < 3) {
+      this.dots.set(currentDots + '.');
     } else {
-      this.dots = '.';
+      this.dots.set('.');
     }
   }
   private startLoadAnimation() {
-    if (this.cards().length == 0) {
-      setInterval(() => {
+    if (this.interval != null) clearInterval(this.interval);
+
+    this.interval = setInterval(() => {
+      if (this.cards().length != 0 && !this.updating) {
+        clearInterval(this.interval!);
+        this.interval = null;
+        this.dots.set('.');
+      } else {
         this.cycleDots();
-      }, 500);
-    }
+      }
+    }, 500);
   }
 }

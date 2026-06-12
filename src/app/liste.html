@@ -2,6 +2,11 @@
   Voici notre catalogue de cartes. Vous pouvez librement éditer chaque carte en cliquant dessus.
 </header>
 <main class="flex flex-wrap">
+  @if (updating) {
+    <div class="fixed inset-0 flex justify-center items center z-53 bg-black/70 text-white">
+      mise à jour de la carte{{ dots() }}
+    </div>
+  }
   @if (selectedCard) {
     <div
       class="fixed inset-0 flex justify-center items-center flex-col max-2xl:scale-90 2xl:scale-130"
@@ -206,8 +211,8 @@
     </div>
   }
 
-  @if (cards() == []) {
-    <div class="text-2xl">Veuillez patienter{{ dots }}</div>
+  @if (cards().length == 0) {
+    <div class="text-2xl">Veuillez patienter{{ dots() }}</div>
   }
 
   @for (c of cards(); track c.id) {
