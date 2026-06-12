@@ -212,7 +212,9 @@
   }
 
   @if (cards().length == 0) {
-    <div class="text-2xl">Veuillez patienter{{ dots() }}</div>
+    <div class="flex fixed inset-0 justify-center items-center text-2xl scale-150">
+      Veuillez patienter{{ dots() }}
+    </div>
   }
 
   @for (c of cards(); track c.id) {
