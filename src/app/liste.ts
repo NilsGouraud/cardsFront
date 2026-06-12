@@ -12,10 +12,7 @@ import { CarteForm } from './interfaces/carteForm.interface';
   imports: [NgOptimizedImage, ReactiveFormsModule],
 })
 export class Liste implements OnInit {
-  async deleteCard() {
-    await this.apiService.deleteCard(this.selectedCard!.id);
-    await this.closeOverlay();
-  }
+  dots: string = '.';
   readonly cards = signal<Carte[]>([]);
   file: File | null = null;
   selectedCard: Carte | null = null;
@@ -24,7 +21,12 @@ export class Liste implements OnInit {
 
   public async ngOnInit() {
     this.formulaire.reset();
+    this.startLoadAnimation();
     await this.sendGetRequest();
+  }
+  async deleteCard() {
+    await this.apiService.deleteCard(this.selectedCard!.id);
+    await this.closeOverlay();
   }
 
   public async confirmChanges(): Promise<void> {
@@ -115,5 +117,19 @@ export class Liste implements OnInit {
       cout: new FormControl('', { nonNullable: true }),
       id: new FormControl('', { nonNullable: true }),
     });
+  }
+  private cycleDots(): void {
+    if (this.dots.length < 3) {
+      this.dots += '.';
+    } else {
+      this.dots = '.';
+    }
+  }
+  private startLoadAnimation() {
+    if (this.cards().length == 0) {
+      setInterval(() => {
+        this.cycleDots();
+      }, 500);
+    }
   }
 }
