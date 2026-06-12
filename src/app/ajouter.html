@@ -43,12 +43,14 @@
       </div>
     </div>
   }
-  <div class="rounded-xl border-1 m-20 2xl:m-30 p-5 bg-black/80 2xl:scale-150">
+  <div
+    class="rounded-xl border-1 max-sm:m-0 m-20 2xl:m-30 max-sm:p-1 p-5 bg-black/80 2xl:scale-150"
+  >
     <span class="">
       Vous pouvez ajouter une carte à la base de données par le biais de ce formulaire.
     </span>
     <form [formGroup]="formulaire" class="flex flex-col">
-      <label class="flex" for="nom"
+      <label class="max-sm:block flex" for="nom"
         ><span class="block w-xs">nom</span>
         <input
           id="nom"
@@ -59,7 +61,7 @@
         />
       </label>
 
-      <label class="flex" for="effet"
+      <label class="max-sm:block flex" for="effet"
         ><span class="block w-xs">effet</span>
         <input
           id="effet"
@@ -70,7 +72,7 @@
         />
       </label>
 
-      <label class="flex" for="description"
+      <label class="max-sm:block flex" for="description"
         ><span class="block w-xs">description</span>
         <input
           id="description"
@@ -81,7 +83,7 @@
         />
       </label>
 
-      <label class="flex" for="type"
+      <label class="max-sm:block flex" for="type"
         ><span class="block w-xs">type</span>
         <select
           id="type"
@@ -97,7 +99,7 @@
       </label>
 
       @if (formulaire.value.type === 'éphémère' || formulaire.value.type === 'rituel') {
-        <label class="flex" for=""
+        <label class="max-sm:block flex" for=""
           ><span class="block w-xs text-gray-600">atk</span>
           <input
             class="border-gray-400 text-gray-600 border-1"
@@ -108,7 +110,7 @@
           />
         </label>
 
-        <label class="flex" for=""
+        <label class="max-sm:block flex" for=""
           ><span class="block w-xs text-gray-600">pdv</span>
           <input
             class="border-gray-400 text-gray-600 border-1"
@@ -119,7 +121,7 @@
           />
         </label>
       } @else {
-        <label class="flex" for="atk"
+        <label class="max-sm:block flex" for="atk"
           ><span class="block w-xs">atk</span>
           <input
             id="atk"
@@ -130,7 +132,7 @@
           />
         </label>
 
-        <label class="flex" for="pdv"
+        <label class="max-sm:block flex" for="pdv"
           ><span class="block w-xs">pdv</span>
           <input
             id="pdv"
@@ -142,7 +144,7 @@
         </label>
       }
 
-      <label class="flex" for="cout"
+      <label class="max-sm:block flex" for="cout"
         ><span class="block w-xs">cout</span>
         <input
           id="cout"
@@ -153,7 +155,7 @@
         />
       </label>
 
-      <label for="image" class="flex flex-row hover:cursor-pointer"
+      <label for="image" class="max-sm:block flex flex-row hover:cursor-pointer"
         ><span class="block w-xs">image</span>
         <div class="border-1">cliquez pour choisir une image</div>
         <input
