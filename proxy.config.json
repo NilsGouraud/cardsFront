@@ -1,6 +1,6 @@
 {
   "/images": {
-    "target": "http://localhost:8080",
+    "target": "https://cardsback-young-bush-4086.fly.dev/",
     "secure": false,
     "changeOrigin": true
   }
