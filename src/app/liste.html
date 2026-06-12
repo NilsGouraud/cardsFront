@@ -208,11 +208,11 @@
 
   @for (c of cards(); track c.id) {
     <article
-      class="m-3 border-3 border-black w-71 h-100 bg-gray-700 text-white cursor-pointer rounded"
+      class="max-xl:m-1 m-3 border-3 border-black max-xl:w-50 w-71 h-100 bg-gray-700 text-white cursor-pointer rounded max-xl"
       (click)="openInOverlay(c.id)"
       data-cy="cardInList"
     >
-      <div class="flex justify-between w-71 h-7">
+      <div class="flex justify-between max-xl:w-50 w-71 h-7">
         <div class="px-1" data-cy="nom">{{ c.nom }}</div>
         <div class="px-1" data-cy="cout">{{ c.cout }}</div>
       </div>
@@ -222,11 +222,13 @@
         alt="image"
         width="200"
         height="200"
-        class="object-contain w-71 h-50 border-1 border-black bg-black"
+        class="object-contain max-xl:w-50 w-71 h-50 border-1 border-black bg-black"
       />
 
       <div class="border-b border-red-500">{{ c.type }}</div>
-      <div class="flex flex-col justify-around w-70 h-30 border-b-1 border-red-500 overflow-y-auto">
+      <div
+        class="flex flex-col justify-around max-xl:w-50 w-70 h-30 border-b-1 border-red-500 overflow-y-auto"
+      >
         @if (c.effet && c.effet != 'N/A') {
           <div class="" data-cy="effet">{{ c.effet }}</div>
         } @else {
